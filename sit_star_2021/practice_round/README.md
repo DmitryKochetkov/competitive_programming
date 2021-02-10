@@ -15,7 +15,7 @@ My progress:
 - [ ] Problem I
 - [ ] Problem J
 - [ ] Problem K
-- [ ] Problem L
+- [ ] Problem L - WA
 
 ## Problem F: Divisibility Problem
 
@@ -34,3 +34,15 @@ So basically my solution is just to recursively find solution for each `n` by ch
 The thing is I don't know how to prove this fact. Maybe, using induction?
 
 There is one more idea, which is bugging me: amount of numbers with n digits, which are 1 or 2, is `2^n`.
+
+## Problem L: Extended Fibonacci
+
+The last problems of such contests are always shrouded in mystery. But not this time.
+
+Because it's easy to see numbers of Extended Fibonacci Sequence:
+
+`A, B, A + B, A + 2B, 2A + 3B, 3A + 5B, 5A + 8B, etc.`
+
+So any `i-th (i > 2)` number in this sequence is `fib[i] * A + fib[i+1] * B` (`fib[i]` is `i-th` Fibonacci number). And the problem now is to count all positive solutions `(A, B)` of the equation `fib[i] * A + fib[i+1] * B = x` for each `i`. Considering `fib[50] = 1134903170 > 10^10`, I suppose bruteforce can be stopped after `i = 50`.
+
+And I still have "Wrong Answer" verdict for test 2.
