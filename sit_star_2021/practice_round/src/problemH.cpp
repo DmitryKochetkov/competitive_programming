@@ -7,11 +7,16 @@
 
 std::string predict(std::string s, long long k) {
     long long index = s.find('*');
+    long long index2 = -1;
 
     for (long long i = 0; i < s.size(); i++) {
+        if (i < k && s[i] == '*')
+            index2 = i;
         if (i+k < s.size() && s[i+k] == '*')
             index = i+k;
         if (std::abs(index - i) <= k)
+            s[i] = '*';
+        if (index2 > 0 && std::abs(index2 - i) <= k)
             s[i] = '*';
     }
 
