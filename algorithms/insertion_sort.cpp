@@ -20,7 +20,7 @@ int main() {
     int n;
     std::cin >> n;
 
-    int* a = new int(n);
+    int* a = new int[n];
     for (int i = 0; i < n; i++)
         std::cin >> a[i];
 
@@ -28,6 +28,6 @@ int main() {
     for (int i = 0; i < n; i++)
         std::cout << a[i] << std::endl;
 
-    delete a;
+    delete[] a;
     return 0;
 }
