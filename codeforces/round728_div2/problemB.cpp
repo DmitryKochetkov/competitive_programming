@@ -11,10 +11,12 @@ int main() {
         int n;
         std::cin >> n;
 
-        std::cout << n << " ";
-        for (int i = 1; i <= n-1; i++)
-            std::cout << i << " ";
-        std::cout << std::endl;
+        std::vector<long> a(n);
+
+        for (int i = 0; i < n; i++)
+            std::cin >> a[i];
+
+
     }
     return 0;
 }
