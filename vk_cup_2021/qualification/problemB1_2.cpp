@@ -1,63 +1,39 @@
-//
-// Created by Dmitry Kochetkov on 5/29/2021.
-//
-
-#include <iostream>
-#include <vector>
 #include <algorithm>
+#include <set>
+#include <list>
+#include <iostream>
 
-int binomialCoefficients(long n, long k) {
-    std::vector<int> C(k+1, 0);
-    C[0] = 1;
-    for (long i = 1; i <= n; i++) {
-        for (long j = std::min(i, k); j > 0; j--)
-            C[j] = C[j] + C[j-1];
+void dump( const std::string & label, const std::list< std::set< int > > & values )
+{
+    std::cout << label << std::endl;
+    for( auto iter : values )
+    {
+        std::cout << "{ ";
+        for( auto val : iter )
+            std::cout << val << ", ";
+        std::cout << "}, ";
     }
-    return C[k];
+    std::cout << std::endl;
 }
 
-int main() {
-    long n;
-    std::cin >> n;
+void combine( std::list< std::set< int > > & values )
+{
+    for( std::list< std::set< int > >::iterator iter = values.begin(); iter != values.end(); ++iter )
+        for( std::list< std::set< int > >::iterator niter( iter ); ++niter != values.end(); )
+            if( std::find_first_of( iter->begin(), iter->end(), niter->begin(), niter->end() ) != iter->end() )
+            {
+                iter->insert( niter->begin(), niter->end() );
+                values.erase( niter );
+                niter = iter;
+            }
+}
 
-    std::vector<std::pair<long, long>> a;
-    for (long i = 0; i < n; i++) {
-        long w, h;
-        std::cin >> w >> h;
+int main( int argc, char ** argv )
+{
+    std::list< std::set< int > > to_process = { { 1, 4 }, { 2, 3 }, { 2, 4 }, { 3, 4 }, { 3, 5 } };
+    dump( "Before", to_process );
+    combine( to_process );
+    dump( "After", to_process );
 
-        if (w > h)
-            std::swap(w, h);
-
-        a.push_back(std::pair<long, long>(w, h));
-    }
-
-
-
-//    std::sort(a.begin(), a.end(), [](const std::pair<long, long>& a, const std::pair<long, long> b) {
-//        return
-//    });
-
-    std::sort(a.begin(), a.end());
-    for (auto p: a) {
-        std::cout << p.first << " " << p.second << std::endl;
-    }
-
-    long res = 0;
-    long c = 1;
-    long x = a[0].first;
-    for (long i = 0; i < a.size(); i++) {
-        if (a[i].first == x) {
-            c++;
-            res += c / 2;
-        }
-        else {
-            res += c / 2;
-            c = 1;
-            x = a[i].first;
-        }
-    }
-    res += c / 2;
-
-    std::cout << res << std::endl;
     return 0;
 }

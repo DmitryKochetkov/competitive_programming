@@ -3,26 +3,31 @@
 //
 
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 int main() {
-    int n;
+    long n;
     std::cin >> n;
 
-    bool locked = false;
-    std::string color = "blue";
+    std::vector<std::pair<long, long>> a;
+    for (long i = 0; i < n; i++) {
+        long w, h;
+        std::cin >> w >> h;
 
-    for (int i = 0; i < n; i++) {
-        std::string input;
-        std::cin >> input;
+        if (w > h)
+            std::swap(w, h);
 
-        if (input == "lock")
-            locked = true;
-        else if (input == "unlock")
-            locked = false;
-        else if (!locked)
-            color = input;
+        a.push_back(std::pair<long, long>(w, h));
     }
 
-    std::cout << color << std::endl;
+    long res = 0;
+
+    for (long i = 0; i < n; i++)
+        for (long j = 0; j < i; j++)
+            if (a[i].first == a[j].first || a[i].second == a[j].second || a[i].first == a[j].second || a[i].second == a[j].first)
+                res++;
+
+    std::cout << res << std::endl;
     return 0;
 }

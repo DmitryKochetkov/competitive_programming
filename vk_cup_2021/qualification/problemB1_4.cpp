@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 int main() {
     long n;
@@ -23,39 +24,30 @@ int main() {
 
     std::sort(a.begin(), a.end());
 
+    std::map<long, long> all;
+
     long res = 0;
-    long c = 1;
-    long c2 = 1;
     long x = a[0].first;
-    long y = a[0].second;
-
-    if (y == x)
-        y = -1;
-
+    all[a[0].second] = 1;
+    long k = 1;
     for (long i = 1; i < a.size(); i++) {
-        if (a[i].first == x) {
-            c++;
-        }
-        else {
-            res += c * (c-1) / 2;
-            c = 1;
-            if (a[i].first == a[i-1].second) {
-                c += c2;
-                c2 = -1;
-            }
+        if (a[i].first > x) {
+            long f = k + all[x];
+            res += f * (f-1) / 2;
             x = a[i].first;
         }
-
-        if (a[i].second == y)
-            c2 += 1;
-        if (a[i].second > y) {
-            y = a[i].second;
-            c2 = 1;
+        else if (a[i].first == x) {
+            k++;
+            if (all.find(a[i].second) == all.end())
+                all[a[i].second] = 1;
+            else all[a[i].second]++;
         }
     }
-    if (a[a.size()].first == a[a.size()-1].second)
-        c += c2;
-    res += c * (c-1) / 2;
+    long f = k;
+    res += f * (f-1) / 2;
+
+//    for (auto i: all)
+//        res += i.second * (i.second - 1) / 2;
 
     std::cout << res << std::endl;
     return 0;
